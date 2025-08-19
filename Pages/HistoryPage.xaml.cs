@@ -1,6 +1,8 @@
-using MemberCard.Services;
 using MemberCard.Models;
+using MemberCard.Services;
 using Microsoft.Maui.Storage;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MemberCard.Pages;
 
@@ -41,4 +43,9 @@ public partial class HistoryPage : ContentPage
             List.ItemsSource = Array.Empty<TransactionItem>();
         }
     }
+
+    // INotifyPropertyChanged
+    public new event PropertyChangedEventHandler? PropertyChanged;
+    protected new void OnPropertyChanged([CallerMemberName] string? name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
