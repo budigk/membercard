@@ -1,1 +1,0 @@
-D:\Projects\MaUI\MemberCard\MemberCard.csproj;x64
