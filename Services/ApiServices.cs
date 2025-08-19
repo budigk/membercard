@@ -9,7 +9,7 @@ public class ApiServices
 {
     private readonly HttpClient _http = new();
     private readonly BrandingService _brand;
-
+    
     private static readonly JsonSerializerOptions JsonOpts = new()
     {
         PropertyNameCaseInsensitive = true
@@ -24,6 +24,7 @@ public class ApiServices
 
     private const string PATH_LOGIN = "/api/auth/login";
     private const string PATH_HISTORY = "/api/listhistoripoint";
+    private const string PATH_OUTLET = "/api/outlet";
 
     public ApiServices(BrandingService brand) => _brand = brand;
     private string BaseUrl => _brand.Config.ApiBaseUrl.TrimEnd('/');
@@ -121,13 +122,20 @@ public class ApiServices
         }
     }
 
-    public Task<List<Outlet>> GetOutletsAsync()
-        => DelayReturn(new List<Outlet>
-        {
-            new() { Name = "Outlet City Garden", Address = "Jl. Example 1, Jakarta", PhotoUrl = "https://picsum.photos/seed/out1/160/160", Latitude = -6.2, Longitude = 106.8 },
-            new() { Name = "Outlet Volendam", Address = "Jl. Example 2, Tangerang", PhotoUrl = "https://picsum.photos/seed/out2/160/160", Latitude = -6.24, Longitude = 106.62 },
-            new() { Name = "Outlet Giethoorn", Address = "Jl. Example 3, Bekasi", PhotoUrl = "https://picsum.photos/seed/out3/160/160", Latitude = -6.3, Longitude = 106.9 }
-        });
+    public async Task<List<Outlet>> GetOutletsAsync(CancellationToken ct = default)
+    {
+        // gabung BaseUrl + PATH_OUTLET (BaseUrl sudah TrimEnd('/'))
+        var url = $"{BaseUrl}{PATH_OUTLET}";
+        System.Diagnostics.Debug.WriteLine($"[GET] {url}");
+
+        using var resp = await _http.GetAsync(url, ct);
+        resp.EnsureSuccessStatusCode();
+
+        var json = await resp.Content.ReadAsStringAsync(ct);
+
+        // Pakai helper generic: coba wrapper { data: [...] } → fallback array murni
+        return DeserializeMaybeWrapped<List<Outlet>>(json) ?? new List<Outlet>();
+    }
 
     public Task<bool> RedeemAsync(string voucherCode)
         => DelayReturn(!string.IsNullOrWhiteSpace(voucherCode));
@@ -136,5 +144,17 @@ public class ApiServices
     {
         public List<TransactionItem>? data { get; set; }
         public int total { get; set; }
+    }
+
+    public static T? DeserializeMaybeWrapped<T>(string json) where T : class
+    {
+        try
+        {
+            var w = JsonSerializer.Deserialize<ApiWrapper<T>>(json, JsonOpts);
+            if (w?.data is not null) return w.data;
+        }
+        catch { /* ignore */ }
+
+        return JsonSerializer.Deserialize<T>(json, JsonOpts);
     }
 }

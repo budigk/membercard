@@ -73,6 +73,9 @@
     <MauiXaml Update="Pages/ProfilePage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages/RegisterPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages/ScanCardPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
+    <MauiXaml Update="Pages\OutletDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Pages\ShowBarcodePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

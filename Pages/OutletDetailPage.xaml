@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MemberCard.Pages.OutletDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Detail Outlet"
+    BackgroundColor="{DynamicResource ColorBackground}"
+    Padding="16">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="14">
+
+            <!-- Header: Nama (Kode) -->
+            <Label FontAttributes="Bold" FontSize="18"
+                   TextColor="{DynamicResource ColorText}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding Outlet.Nama}" />
+                        <Span Text=" (" />
+                        <Span Text="{Binding Outlet.Kode}" />
+                        <Span Text=")" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="110,*"
+                  ColumnSpacing="8" RowSpacing="6">
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Nama"  Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Outlet.Nama, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Kode"  Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Outlet.Kode, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+
+                <Label Grid.Row="2" Grid.Column="0" Text="Alamat" Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Outlet.Alamat, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+
+                <Label Grid.Row="3" Grid.Column="0" Text="Kota"   Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Outlet.Kota, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+
+                <Label Grid.Row="4" Grid.Column="0" Text="Opening Hour" Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="4" Grid.Column="1" Text="{Binding Outlet.OpeningHour, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+
+                <Label Grid.Row="5" Grid.Column="0" Text="Telepon" Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="5" Grid.Column="1" Text="{Binding Outlet.Telepon, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+
+                <Label Grid.Row="6" Grid.Column="0" Text="Whatsapp" Opacity="0.7" TextColor="{DynamicResource ColorText}" />
+                <Label Grid.Row="6" Grid.Column="1" Text="{Binding Outlet.Whatsapp, TargetNullValue='-'}" TextColor="{DynamicResource ColorText}" />
+            </Grid>
+
+            <HorizontalStackLayout Spacing="12" Margin="0,6,0,0">
+                <Button Text="Telepon" Clicked="OnCallClicked" />
+                <Button Text="WhatsApp" Clicked="OnWhatsAppClicked" />
+                <Button Text="Google Maps" Clicked="OnMapClicked" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

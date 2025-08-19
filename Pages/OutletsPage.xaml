@@ -1,22 +1,141 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MemberCard.Pages.OutletsPage"
-             Title="Outlets">
-    <CollectionView x:Name="List" Margin="12">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Frame>
-                    <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="12">
-                        <Image Source="{Binding PhotoUrl}" WidthRequest="80" HeightRequest="80"/>
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Name}" FontAttributes="Bold"/>
-                            <Label Text="{Binding Address}" FontSize="12"/>
-                        </VerticalStackLayout>
-                        <Button Text="Map" Clicked="OnMap"/>
+<ContentPage
+    x:Class="MemberCard.Pages.OutletsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:MemberCard.Models"
+    Title="Outlet"
+    BackgroundColor="{DynamicResource ColorBackground}"
+    Padding="8,0">
+
+    <RefreshView x:Name="OutletRefresh" Refreshing="OnRefresh">
+        <CollectionView x:Name="List"
+                        ItemsSource="{Binding Items}"
+                        SelectionMode="None"
+                        ItemsLayout="VerticalList"
+                        VerticalScrollBarVisibility="Never">
+
+            <!-- First-load: spinner dulu. Jika selesai & kosong: pesan -->
+            <CollectionView.EmptyView>
+                <Grid Padding="16" RowDefinitions="Auto,Auto">
+                    <ActivityIndicator IsRunning="True"
+                                       IsVisible="{Binding IsLoading}"
+                                       Color="{DynamicResource ColorText}" />
+                    <Label Grid.Row="1"
+                           IsVisible="{Binding ShowEmptyMessage}"
+                           Text="Belum ada outlet."
+                           HorizontalTextAlignment="Center"
+                           Margin="0,8,0,0"
+                           TextColor="{DynamicResource ColorText}" />
+                </Grid>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Outlet">
+                    <!-- List item: ikon toko + konten + aksi, separator berjarak -->
+                    <Grid Padding="8,10"
+                          RowDefinitions="Auto,Auto,Auto"
+                          ColumnDefinitions="28,10,*,Auto">
+
+                        <!-- Ikon toko -->
+                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                               Source="ic_store.png"
+                               WidthRequest="24" HeightRequest="24"
+                               VerticalOptions="Start" />
+
+                        <!-- Nama (Kode) + Aksi (WA, Map) -->
+                        <Grid Grid.Column="2" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+
+                            <!-- Baris 1: Nama (Kode) -->
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0"
+                                       FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource ColorText}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Nama}" />
+                                            <Span Text=" (" />
+                                            <Span Text="{Binding Kode}" />
+                                            <Span Text=")" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                                    <!-- WhatsApp -->
+                                    <ImageButton Source="ic_whatsapp.png"
+                                                 BackgroundColor="Transparent"
+                                                 WidthRequest="24" HeightRequest="24"
+                                                 Clicked="OnWhatsAppClicked"
+                                                 IsVisible="True">
+                                        <!-- sembunyikan jika WA null/empty -->
+                                        <ImageButton.Triggers>
+                                            <DataTrigger TargetType="ImageButton" Binding="{Binding Whatsapp}" Value="{x:Null}">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="ImageButton" Binding="{Binding Whatsapp}" Value="">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </ImageButton.Triggers>
+                                    </ImageButton>
+
+                                    <!-- Maps -->
+                                    <ImageButton Source="ic_map_pin.png"
+                                                 BackgroundColor="Transparent"
+                                                 WidthRequest="24" HeightRequest="24"
+                                                 Clicked="OnMapClicked"
+                                                 IsEnabled="False" Opacity="0.4">
+                                        <!-- enable jika GeoCode atau ReverseGeoCode ada -->
+                                        <ImageButton.Triggers>
+                                            <DataTrigger TargetType="ImageButton" Binding="{Binding GeoCode}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="ImageButton" Binding="{Binding GeoCode}" Value="">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="ImageButton" Binding="{Binding GeoCode}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="True" />
+                                                <Setter Property="Opacity" Value="1" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="ImageButton" Binding="{Binding ReverseGeoCode}" Value="{x:Null}">
+                                                <!-- no-op jika memang null; tombol sudah enable dari trigger GeoCode nullable di atas -->
+                                            </DataTrigger>
+                                        </ImageButton.Triggers>
+                                    </ImageButton>
+                                </StackLayout>
+                            </Grid>
+
+                            <!-- Baris 2: Wilayah (jika ada) -->
+                            <Label Grid.Row="1"
+                                   Text="{Binding Wilayah, TargetNullValue='-'}"
+                                   FontSize="12" Opacity=".85"
+                                   TextColor="{DynamicResource ColorText}" />
+                        </Grid>
+
+                        <!-- Opening Hour -->
+                        <Label Grid.Row="2" Grid.ColumnSpan="4"
+                               Text="{Binding OpeningHour, TargetNullValue=''}"
+                               FontSize="12" Opacity=".85"
+                               Margin="0,4,0,0"
+                               TextColor="{DynamicResource ColorText}" />
+
+                        <!-- Separator: jarak dari teks -->
+                        <BoxView Grid.Row="2" Grid.ColumnSpan="4"
+                                 HeightRequest="1"
+                                 Margin="0,26,0,0"
+                                 HorizontalOptions="Fill"
+                                 BackgroundColor="{DynamicResource ColorSecondary}"
+                                 Opacity="0.15" />
+
+                        <!-- Tap item → detail -->
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemTapped"/>
+                        </Grid.GestureRecognizers>
                     </Grid>
-                </Frame>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
 </ContentPage>

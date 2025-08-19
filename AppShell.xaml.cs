@@ -12,5 +12,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("register", typeof(RegisterPage));
         Routing.RegisterRoute("scan", typeof(ScanCardPage));
         Routing.RegisterRoute(nameof(ShowBarcodePage), typeof(ShowBarcodePage));
+        Routing.RegisterRoute(nameof(OutletDetailPage), typeof(MemberCard.Pages.OutletDetailPage));
     }
 }
