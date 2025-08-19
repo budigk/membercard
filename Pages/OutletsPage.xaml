@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemberCard.Pages.OutletsPage"
+             Title="Outlets">
+    <CollectionView x:Name="List" Margin="12">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame>
+                    <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="12">
+                        <Image Source="{Binding PhotoUrl}" WidthRequest="80" HeightRequest="80"/>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                            <Label Text="{Binding Address}" FontSize="12"/>
+                        </VerticalStackLayout>
+                        <Button Text="Map" Clicked="OnMap"/>
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

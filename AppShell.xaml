@@ -1,0 +1,18 @@
+<Shell
+    x:Class="MemberCard.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:MemberCard.Pages">
+
+    <TabBar>
+        <!-- Tambah Route="home" di tab pertama -->
+        <ShellContent Route="home"
+                  Title="Card"
+                  Icon="tab_card.png"
+                  ContentTemplate="{DataTemplate pages:HomePage}" />
+        <ShellContent Title="History" Icon="tab_history.png" ContentTemplate="{DataTemplate pages:HistoryPage}" />
+        <ShellContent Title="Store"   Icon="tab_store.png"   ContentTemplate="{DataTemplate pages:OutletsPage}" />
+        <ShellContent Title="Profile" Icon="tab_profile.png" ContentTemplate="{DataTemplate pages:ProfilePage}" />
+    </TabBar>
+
+</Shell>

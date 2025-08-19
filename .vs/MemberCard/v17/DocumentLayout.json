@@ -1,0 +1,267 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\MaUI\\MemberCard\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\services\\brandingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:services\\brandingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\models\\brandconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:models\\brandconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\services\\apiservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:services\\apiservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\resources\\raw\\brand.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:resources\\raw\\brand.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\membercard.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:membercard.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\pages\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:pages\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\pages\\showbarcodepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:pages\\showbarcodepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\pages\\showbarcodepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:pages\\showbarcodepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\pages\\homepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:pages\\homepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\pages\\profilepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:pages\\profilepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|d:\\projects\\maui\\membercard\\platforms\\android\\androidmanifest.xml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{1AF05B84-5391-49C2-825C-0EA5B968439D}|MemberCard.csproj|solutionrelative:platforms\\android\\androidmanifest.xml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BrandConfig.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Models\\BrandConfig.cs",
+              "RelativeDocumentMoniker": "Models\\BrandConfig.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Models\\BrandConfig.cs",
+              "RelativeToolTip": "Models\\BrandConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T04:53:42.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApiServices.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Services\\ApiServices.cs",
+              "RelativeDocumentMoniker": "Services\\ApiServices.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Services\\ApiServices.cs",
+              "RelativeToolTip": "Services\\ApiServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T04:53:27.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "brand.json",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Resources\\Raw\\brand.json",
+              "RelativeDocumentMoniker": "Resources\\Raw\\brand.json",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Resources\\Raw\\brand.json",
+              "RelativeToolTip": "Resources\\Raw\\brand.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-19T04:52:56.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MemberCard",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\MemberCard.csproj",
+              "RelativeDocumentMoniker": "MemberCard.csproj",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\MemberCard.csproj",
+              "RelativeToolTip": "MemberCard.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-19T04:51:37.681Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BrandingService.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Services\\BrandingService.cs",
+              "RelativeDocumentMoniker": "Services\\BrandingService.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Services\\BrandingService.cs",
+              "RelativeToolTip": "Services\\BrandingService.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAmwCEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T04:44:57.072Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomePage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Pages\\HomePage.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\HomePage.xaml.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Pages\\HomePage.xaml.cs",
+              "RelativeToolTip": "Pages\\HomePage.xaml.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAUwCgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T16:42:42.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ShowBarcodePage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Pages\\ShowBarcodePage.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\ShowBarcodePage.xaml.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Pages\\ShowBarcodePage.xaml.cs",
+              "RelativeToolTip": "Pages\\ShowBarcodePage.xaml.cs",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAAAKkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T16:01:38.221Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ShowBarcodePage.xaml",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Pages\\ShowBarcodePage.xaml",
+              "RelativeDocumentMoniker": "Pages\\ShowBarcodePage.xaml",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Pages\\ShowBarcodePage.xaml",
+              "RelativeToolTip": "Pages\\ShowBarcodePage.xaml",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAiwF8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-13T16:01:19.391Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ProfilePage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Pages\\ProfilePage.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\ProfilePage.xaml.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Pages\\ProfilePage.xaml.cs",
+              "RelativeToolTip": "Pages\\ProfilePage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:53:24.63Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HomePage.xaml",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Pages\\HomePage.xaml",
+              "RelativeDocumentMoniker": "Pages\\HomePage.xaml",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Pages\\HomePage.xaml",
+              "RelativeToolTip": "Pages\\HomePage.xaml",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAiwFUAAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-13T13:49:45.122Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MainActivity.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Platforms\\Android\\MainActivity.cs",
+              "RelativeDocumentMoniker": "Platforms\\Android\\MainActivity.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Platforms\\Android\\MainActivity.cs",
+              "RelativeToolTip": "Platforms\\Android\\MainActivity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T13:48:51.003Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AndroidManifest.xml",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\Platforms\\Android\\AndroidManifest.xml",
+              "RelativeDocumentMoniker": "Platforms\\Android\\AndroidManifest.xml",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\Platforms\\Android\\AndroidManifest.xml",
+              "RelativeToolTip": "Platforms\\Android\\AndroidManifest.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2025-08-13T13:48:46.245Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\App.xaml.cs",
+              "RelativeDocumentMoniker": "App.xaml.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\App.xaml.cs",
+              "RelativeToolTip": "App.xaml.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T13:34:10.4Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AppShell.xaml",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\AppShell.xaml",
+              "RelativeDocumentMoniker": "AppShell.xaml",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\AppShell.xaml",
+              "RelativeToolTip": "AppShell.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-13T13:28:23.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AppShell.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\MaUI\\MemberCard\\AppShell.xaml.cs",
+              "RelativeDocumentMoniker": "AppShell.xaml.cs",
+              "ToolTip": "D:\\Projects\\MaUI\\MemberCard\\AppShell.xaml.cs",
+              "RelativeToolTip": "AppShell.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T13:27:18.742Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

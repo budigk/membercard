@@ -1,0 +1,10 @@
+﻿{
+  "appName": "Member Card",
+  "primary": "#2563EB",
+  "secondary": "#14B8A6",
+  "accent": "#F59E0B",
+  "background": "#FFFFFF",
+  "text": "#111827",
+  "cardBackground": "#F3F4F6",
+  "logo": "logo.png"
+}

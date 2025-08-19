@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MemberCard.Pages.ShowBarcodePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    Title=""
+    BackgroundColor="{AppThemeBinding Light=#F9FAFB, Dark=#0B1220}">
+
+    <ContentPage.Resources>
+        <!-- Brand & text colors -->
+        <Color x:Key="Brand">#10B981</Color>
+        <Color x:Key="CardBgLight">#FFFFFF</Color>
+        <Color x:Key="CardBgDark">#111827</Color>
+        <Color x:Key="TextMainLight">#111827</Color>
+        <Color x:Key="TextMainDark">#FFFFFF</Color>
+        <Color x:Key="TextSubLight">#6B7280</Color>
+        <Color x:Key="TextSubDark">#94A3B8</Color>
+
+        <!-- Card style -->
+        <Style TargetType="Border" x:Key="Card">
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 16"/>
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBgLight}, Dark={StaticResource CardBgDark}}"/>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="#22000000" Offset="0,4" Radius="10" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" Value="18"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Padding="20,16" Spacing="16">
+
+        <!-- Segmented toggle -->
+        <Border Style="{StaticResource Card}" Padding="10,10">
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
+
+                <!-- Segmented -->
+                <Border Grid.Row="0" Grid.ColumnSpan="2"
+                        BackgroundColor="{AppThemeBinding Light=#F3F4F6, Dark=#1F2937}"
+                        StrokeShape="RoundRectangle 12" Padding="6">
+                    <Grid x:Name="segmentedGrid" ColumnDefinitions="*,*">
+                        <!-- Slider highlight (dipindahkan ke kolom 0/1) -->
+                        <Border x:Name="segThumb"
+                                Grid.Column="0"
+                                BackgroundColor="{StaticResource Brand}"
+                                StrokeShape="RoundRectangle 10"
+                                HorizontalOptions="Fill"
+                                Margin="2" />
+                        <!-- Tombol kiri -->
+                        <Button x:Name="btnSegBarcode"
+                                Grid.Column="0"
+                                Text="Barcode"
+                                Clicked="OnSelectBarcode"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource TextMainLight}, Dark={StaticResource TextMainDark}}"/>
+                        <!-- Tombol kanan -->
+                        <Button x:Name="btnSegQr"
+                                Grid.Column="1"
+                                Text="QR Code"
+                                Clicked="OnSelectQr"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource TextMainLight}, Dark={StaticResource TextMainDark}}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Viewer: satu komponen saja -->
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="240" Padding="0,10,0,0">
+                    <zxing:BarcodeGeneratorView x:Name="codeView"
+                                                WidthRequest="350" HeightRequest="130"
+                                                HorizontalOptions="Center" VerticalOptions="Center"
+                                                Format="Code128" Value="000000"
+                                                Opacity="1" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Kartu info member (seperti di Home) -->
+        <Border Style="{StaticResource Card}">
+            <Grid ColumnDefinitions="*,Auto" Padding="4,0,4,0">
+                <VerticalStackLayout Spacing="2">
+                    <Label x:Name="lblMemberName" Text="Agung Pratama"
+                           FontSize="16" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextMainLight}, Dark={StaticResource TextMainDark}}"/>
+                    <Label x:Name="lblCardNo" Text="Card No: 9988 6655 2211"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSubLight}, Dark={StaticResource TextSubDark}}"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+    </VerticalStackLayout>
+</ContentPage>

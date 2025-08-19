@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemberCard.Pages.SettingsPage"
+             Title="Settings">
+
+    <VerticalStackLayout Padding="16" Spacing="12">
+        <Label Text="API Server"/>
+        <Entry x:Name="ApiEntry" Placeholder="https://api.example.com"/>
+        <Button Text="Save" Clicked="OnSave"/>
+        <Label Text="Brand Preview"/>
+        <Frame>
+            <HorizontalStackLayout Spacing="12">
+                <BoxView WidthRequest="24" HeightRequest="24" Color="{StaticResource PrimaryColor}"/>
+                <BoxView WidthRequest="24" HeightRequest="24" Color="{StaticResource SecondaryColor}"/>
+                <BoxView WidthRequest="24" HeightRequest="24" Color="{StaticResource AccentColor}"/>
+            </HorizontalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

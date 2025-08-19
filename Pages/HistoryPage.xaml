@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemberCard.Pages.HistoryPage"
+             Title="History">
+    <CollectionView x:Name="List" ItemsLayout="VerticalList" Margin="12">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame>
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                        <Label Text="{Binding Description}" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Text="{Binding Date, StringFormat='{0:dd MMM yyyy}'}"/>
+                        <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding PointsDelta}" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
