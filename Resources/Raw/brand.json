@@ -1,10 +1,16 @@
 ﻿{
-  "appName": "Member Card",
-  "primary": "#2563EB",
-  "secondary": "#14B8A6",
-  "accent": "#F59E0B",
-  "background": "#FFFFFF",
-  "text": "#111827",
-  "cardBackground": "#F3F4F6",
-  "logo": "logo.png"
+  "appTitle": "Affari Member — Irian",
+  "apiBaseUrl": "https://api3.affariretail.id/irian",
+  "theme": {
+    "primary": "#0B1220",
+    "secondary": "#111827",
+    "accent": "#2563EB",
+    "background": "#FFFFFF",
+    "text": "#111827",
+    "cardBackground": "#EEF2FF"
+  },
+  "assets": {
+    "logo": "logo.png",
+    "card": "member_card_1200.jpg"
+  }
 }

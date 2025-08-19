@@ -1,15 +1,21 @@
-﻿using MemberCard.Services;
+﻿
+using Microsoft.Maui.Controls;
+using MemberCard.Services;
 
 namespace MemberCard;
 
 public partial class App : Application
 {
-    public static BrandConfig? Brand { get; private set; }
+    private readonly BrandingService _branding;
+    public static IServiceProvider Services => Current!.Handler!.MauiContext!.Services!;
+
+    //public static BrandConfig? Brand { get; private set; }
 
     public App(BrandingService branding)
     {
         InitializeComponent();
 
+        _branding = branding;
         // Tampilkan Shell dulu
         MainPage = new AppShell();
 
@@ -17,7 +23,7 @@ public partial class App : Application
         Dispatcher.Dispatch(async () =>
         {
             // (opsional) load branding tanpa blocking UI
-            Brand = await branding.LoadAsync();
+            //Brand = await branding.LoadAsync();
 
             var hasToken = !string.IsNullOrEmpty(Preferences.Get("AccessToken", null));
 
@@ -34,5 +40,13 @@ public partial class App : Application
                 // Atau: biarkan kosong — default-nya sudah di tab pertama (Home)
             }
         });
+    }
+
+    protected override async void OnStart()
+    {
+        base.OnStart();
+        await _branding.LoadAsync();   // baca brand.json → set warna, logo, kartu, base URL
+
+        Preferences.Set("KodeMember", "M/AKS200200108");
     }
 }

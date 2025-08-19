@@ -3,6 +3,7 @@ using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Devices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberCard.Pages;
 
@@ -209,11 +210,6 @@ public partial class ScanCardPage : ContentPage
 
     private static ApiServices ResolveApi()
     {
-        try
-        {
-            var sp = Application.Current?.Handler?.MauiContext?.Services;
-            return (ApiServices?)sp?.GetService(typeof(ApiServices)) ?? new ApiServices();
-        }
-        catch { return new ApiServices(); }
+        return App.Services.GetRequiredService<ApiServices>();
     }
 }

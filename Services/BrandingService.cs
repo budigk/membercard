@@ -1,34 +1,47 @@
 ﻿using System.Text.Json;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
+using MemberCard.Models;
 
 namespace MemberCard.Services;
 
-public class BrandingService
+public sealed class BrandingService
 {
-    const string BrandFile = "brand.json"; // placed in Resources/Raw
+    public BrandConfig Config { get; private set; } = new();
+    private const string BrandFile = "brand.json"; // Resources/Raw/brand.json (MauiAsset)
 
     public async Task<BrandConfig> LoadAsync()
     {
-        using var stream = await FileSystem.OpenAppPackageFileAsync(BrandFile);
-        using var reader = new StreamReader(stream);
-        var json = await reader.ReadToEndAsync();
-        var brand = JsonSerializer.Deserialize<BrandConfig>(json, new JsonSerializerOptions
+        using var s = await FileSystem.OpenAppPackageFileAsync(BrandFile);
+        using var r = new StreamReader(s);
+        var json = await r.ReadToEndAsync();
+
+        Config = JsonSerializer.Deserialize<BrandConfig>(json, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         }) ?? new BrandConfig();
 
-        ApplyToResources(brand);
-        Application.Current!.Resources["AppName"] = brand.AppName;
-        return brand;
+        ApplyToResources(Config);
+        return Config;
     }
 
     public void ApplyToResources(BrandConfig b)
     {
         var res = Application.Current!.Resources;
-        res["PrimaryColor"] = Color.FromArgb(b.Primary);
-        res["SecondaryColor"] = Color.FromArgb(b.Secondary);
-        res["AccentColor"] = Color.FromArgb(b.Accent);
-        res["BackgroundColor"] = Color.FromArgb(b.Background);
-        res["TextColor"] = Color.FromArgb(b.Text);
-        res["CardBackgroundColor"] = Color.FromArgb(b.CardBackground);
+
+        // Theme (DynamicResource)
+        res["ColorPrimary"] = Color.FromArgb(b.Theme.Primary);
+        res["ColorSecondary"] = Color.FromArgb(b.Theme.Secondary);
+        res["ColorAccent"] = Color.FromArgb(b.Theme.Accent);
+        res["ColorBackground"] = Color.FromArgb(b.Theme.Background);
+        res["ColorText"] = Color.FromArgb(b.Theme.Text);
+        res["ColorCardBackground"] = Color.FromArgb(b.Theme.CardBackground);
+
+        // Assets (DynamicResource: string filename → FileImageSource)
+        res["LogoImage"] = b.Assets.Logo;
+        res["CardImage"] = b.Assets.Card;
+
+        // App title untuk dipakai di header dalam app (OS label tetap via csproj)
+        res["AppTitle"] = b.AppTitle;
     }
 }

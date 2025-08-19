@@ -73,10 +73,12 @@
     <MauiXaml Update="Pages/ProfilePage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages/RegisterPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages/ScanCardPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
-    <MauiXaml Update="Pages/SettingsPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages\ShowBarcodePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>
 
+	<ItemGroup>
+		<MauiAsset Include="Resources/Raw/brand.json" LogicalName="brand.json" />
+	</ItemGroup>
 </Project>

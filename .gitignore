@@ -1,0 +1,21 @@
+# Visual Studio & .NET MAUI build artifacts
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+*.suo
+
+# Log files
+*.log
+
+# Paket NuGet lokal
+*.nupkg
+*.snupkg
+
+# Cache & temporary
+*.dbmdl
+*.jfm
+*.tmp
+*.DS_Store

@@ -1,19 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MemberCard.Pages.HistoryPage"
-             Title="History">
-    <CollectionView x:Name="List" ItemsLayout="VerticalList" Margin="12">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Frame>
-                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
-                        <Label Text="{Binding Description}" FontAttributes="Bold"/>
-                        <Label Grid.Row="1" Text="{Binding Date, StringFormat='{0:dd MMM yyyy}'}"/>
-                        <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding PointsDelta}" VerticalTextAlignment="Center"/>
+<ContentPage x:Class="MemberCard.Pages.HistoryPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:MemberCard.Pages" Title="Riwayat Point" BackgroundColor="{DynamicResource ColorBackground}" Padding="8,0">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TanggalPrettyConverter x:Key="TanggalPretty" />
+            <local:IsNegativeConverter x:Key="IsNegative" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <RefreshView x:Name="HistoryRefresh" Refreshing="OnRefresh">
+        <CollectionView x:Name="List" Margin="0" SelectionMode="None" ItemsLayout="VerticalList" VerticalScrollBarVisibility="Never">
+            <CollectionView.EmptyView>
+                <Grid Padding="16">
+                    <Label Text="Belum ada riwayat. Tarik ke bawah untuk menyegarkan." HorizontalTextAlignment="Center" TextColor="{DynamicResource ColorText}" />
+                </Grid>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!-- LIST, padding kiri/kanan kecil + separator -->
+                    <Grid Padding="8,10" RowDefinitions="Auto,Auto,1" ColumnDefinitions="24,8,*">
+                        <!-- ICON PNG KIRI: plus/minus -->
+                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HeightRequest="20" WidthRequest="20" VerticalOptions="Start" Source="ic_point_plus.png">
+                            <Image.Triggers>
+                                <DataTrigger TargetType="Image" Binding="{Binding Point, Converter={StaticResource IsNegative}}" Value="True">
+                                    <Setter Property="Source" Value="ic_point_minus.png" />
+                                </DataTrigger>
+                            </Image.Triggers>
+                        </Image>
+                        <!-- KONTEN KANAN -->
+                        <Grid Grid.Column="2" RowDefinitions="Auto,Auto">
+                            <!-- BARIS 1: Keterangan (kiri) — Rp {Total} (kanan) -->
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="{Binding Keterangan}" FontAttributes="Bold" FontSize="15" TextColor="{DynamicResource ColorText}" />
+                                <Label Grid.Column="1" IsVisible="{Binding ShowTotal}" Text="{Binding Total, StringFormat='Rp {0:N0}'}" FontSize="14" TextColor="{DynamicResource ColorText}" />
+                            </Grid>
+                            <!-- BARIS 2: Tanggal & Jam (kiri) — Poin : jumlah (kanan, bold; merah jika minus) -->
+                            <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="{Binding Tanggal, Converter={StaticResource TanggalPretty}}" FontSize="12" Opacity=".85" TextColor="{DynamicResource ColorText}" />
+                                <Label Grid.Column="1" Text="{Binding Point, StringFormat='Poin : {0:N0}'}" FontAttributes="Bold" FontSize="12" TextColor="{DynamicResource ColorText}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Point, Converter={StaticResource IsNegative}}" Value="True">
+                                            <Setter Property="TextColor" Value="#DC2626" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Grid>
+                        </Grid>
+                        <!-- SEPARATOR BAWAH -->
+                        <BoxView Grid.Row="2" Grid.ColumnSpan="3" HeightRequest="1" BackgroundColor="{DynamicResource ColorSecondary}" Opacity="0.15" />
                     </Grid>
-                </Frame>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
 </ContentPage>

@@ -1,13 +1,26 @@
-﻿namespace MemberCard;
+﻿namespace MemberCard.Models;
 
-public class BrandConfig
+public sealed class BrandConfig
 {
-    public string AppName { get; set; } = "Member Card";
-    public string Primary { get; set; } = "#2563EB";
-    public string Secondary { get; set; } = "#14B8A6";
-    public string Accent { get; set; } = "#F59E0B";
+    public string AppTitle { get; set; } = "Affari Member";
+    public string ApiBaseUrl { get; set; } = "https://api3.affariretail.id/irian"; // tanpa trailing slash
+    public ThemeConfig Theme { get; set; } = new();
+    public AssetConfig Assets { get; set; } = new();
+}
+
+public sealed class ThemeConfig
+{
+    public string Primary { get; set; } = "#0B1220";
+    public string Secondary { get; set; } = "#111827";
+    public string Accent { get; set; } = "#2563EB";
     public string Background { get; set; } = "#FFFFFF";
     public string Text { get; set; } = "#111827";
-    public string CardBackground { get; set; } = "#F3F4F6";
-    public string Logo { get; set; } = "logo.png";
+    public string CardBackground { get; set; } = "#EEF2FF";
+}
+
+public sealed class AssetConfig
+{
+    // nama file yang dibundel di Resources/Images
+    public string Logo { get; set; } = "logo_default.png";
+    public string Card { get; set; } = "card_default.png";
 }
