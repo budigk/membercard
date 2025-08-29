@@ -9,12 +9,12 @@ public partial class ProfilePage : ContentPage
 
     async void ProfilePage_Loaded(object? s, EventArgs e)
     {
-        try
-        {
-            var m = await _api.GetMemberAsync();
-            if (m != null) { NameEntry.Text = m.Name; CardEntry.Text = m.CardNumber; }
-        }
-        catch { }
+        //try
+        //{
+        //    //var m = await _api.GetMemberAsync();
+        //    if (m != null) { NameEntry.Text = m.Name; CardEntry.Text = m.CardNumber; }
+        //}
+        //catch { }
     }
 
     async void OnSave(object sender, EventArgs e) => await DisplayAlert("Saved", "Profile saved (mock)", "OK");

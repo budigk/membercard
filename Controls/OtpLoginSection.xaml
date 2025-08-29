@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MemberCard.Services"
+             x:Class="MemberCard.Controls.OtpLoginSection">
+    <ContentView.BindingContext>
+        <vm:OtpLoginViewModel />
+    </ContentView.BindingContext>
+
+    <VerticalStackLayout Spacing="12">
+        <Label Text="Masuk dengan OTP WhatsApp" FontAttributes="Bold" />
+        <Entry Placeholder="Nomor ponsel (08xxxx)" Keyboard="Telephone"
+           Text="{Binding Phone}" />
+
+        <Button Text="Kirim OTP" Command="{Binding SendOtpCommand}" />
+
+        <Grid IsVisible="{Binding IsOtpSent}" RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+            <Entry Grid.Row="0" Placeholder="Masukkan OTP 6 digit" Keyboard="Numeric"
+             Text="{Binding Otp}" />
+            <Button Grid.Row="1" Text="Verifikasi" Command="{Binding VerifyOtpCommand}" />
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

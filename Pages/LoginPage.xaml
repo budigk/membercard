@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MemberCard.Pages.LoginPage"
+             xmlns:controls="clr-namespace:MemberCard.Controls"
              Title="Login"
              Shell.TabBarIsVisible="False"
              Shell.NavBarIsVisible="False">
@@ -14,11 +15,13 @@
             <VerticalStackLayout Spacing="16">
                 <!-- Logo aplikasi di header -->
                 <Image Source="logo.png" HeightRequest="120" HorizontalOptions="Center"/>
-                <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email"/>
-                <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True"/>
-
+                <!-- <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email"/>-->
+                <!-- <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True"/>-->
+                <!-- Tambahkan OTP Section DI SINI -->
+                <controls:OtpLoginSection />
+                
                 <!-- Tombol utama: Masuk (primary) -->
-                <Button Text="Masuk" Clicked="OnLoginClicked"/>
+                <!-- <Button Text="Masuk" Clicked="OnLoginClicked"/>-->
 
                 <!-- Masuk dengan Kartu Member: jadikan tombol filled -->
                 <Button Text="Masuk dengan Kartu Member"
@@ -30,7 +33,7 @@
                 <Button Text="Daftar Member Baru"
                 BackgroundColor="{StaticResource SecondaryColor}"
                 TextColor="White"
-                Clicked="OnRegister"/>
+                Clicked="OnRegisterClicked"/>
 
                 <!-- (Opsional dev) Skip demo -->
                 <Button Text="Skip (Demo)"

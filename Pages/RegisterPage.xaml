@@ -1,12 +1,77 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MemberCard.Pages.RegisterPage"
-             Title="Register">
-    <VerticalStackLayout Padding="24" Spacing="12">
-        <Entry x:Name="NameEntry" Placeholder="Full name"/>
-        <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email"/>
-        <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True"/>
-        <Button Text="Create account" Clicked="OnCreate"/>
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="MemberCard.Pages.RegisterPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Daftar Member">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <!-- Email + OTP -->
+            <Label Text="Email" />
+            <Entry x:Name="txtEmail" Keyboard="Email" Placeholder="nama@domain.com" />
+
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Entry x:Name="txtOtp" Placeholder="Kode OTP" />
+                <Button x:Name="btnSendOtp" Text="Kirim Kode" Clicked="OnSendOtpClicked" Grid.Column="1" />
+            </Grid>
+
+            <Button x:Name="btnVerifyOtp" Text="Verifikasi OTP" Clicked="OnVerifyOtpClicked" />
+
+            <BoxView HeightRequest="1" Opacity="0.15" />
+
+            <!-- Password -->
+            <Label Text="Password" />
+            <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Minimal 6 karakter" />
+            <Label Text="Konfirmasi Password" />
+            <Entry x:Name="txtConfirmPassword" IsPassword="True" Placeholder="Ulangi password" />
+
+            <BoxView HeightRequest="1" Opacity="0.15" />
+
+            <!-- Data Member -->
+            <Label Text="No KTP" />
+            <Entry x:Name="txtNoKtp" Keyboard="Numeric" />
+
+            <Label Text="Nama" />
+            <Entry x:Name="txtNama" />
+
+            <Label Text="Nomor Ponsel" />
+            <Entry x:Name="txtNoPonsel" Keyboard="Telephone" Placeholder="08xxxxxxxxxx" />
+
+            <Label Text="Alamat" />
+            <Editor x:Name="txtAlamat" AutoSize="TextChanges" />
+
+            <Label Text="Kecamatan" />
+            <Entry x:Name="txtKecamatan" />
+
+            <Label Text="Kota" />
+            <Entry x:Name="txtKota" />
+
+            <Label Text="Agama" />
+            <Picker x:Name="pkAgama">
+                <Picker.Items>
+                    <x:String>Islam</x:String>
+                    <x:String>Kristen</x:String>
+                    <x:String>Katolik</x:String>
+                    <x:String>Hindu</x:String>
+                    <x:String>Buddha</x:String>
+                    <x:String>Konghucu</x:String>
+                    <x:String>Lainnya</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Tempat Lahir" />
+            <Entry x:Name="txtTempatLahir" />
+
+            <Label Text="Tanggal Lahir" />
+            <DatePicker x:Name="dpTanggalLahir" />
+
+            <ActivityIndicator x:Name="aiBusy" IsVisible="False" IsRunning="False" />
+            <Button x:Name="btnDaftar" Text="Daftar" Clicked="OnRegisterClicked" />
+
+            <Label x:Name="lblInfo" TextColor="Gray" FontSize="12" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
