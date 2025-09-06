@@ -4,8 +4,6 @@ public sealed class BrandConfig
 {
     public string AppTitle { get; set; } = "Affari Member";
     public string ApiBaseUrl { get; set; } = "https://api.affariretail.id/irian"; // tanpa trailing slash
-    public string apiWAUrl { get; set; } = "";
-    public string waClientId { get; set; } = "";
     public ThemeConfig Theme { get; set; } = new();
     public AssetConfig Assets { get; set; } = new();
 }

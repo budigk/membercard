@@ -66,9 +66,6 @@
 
   <!-- XAML compile -->
   <ItemGroup>
-    <MauiXaml Update="Controls\OtpLoginSection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
     <MauiXaml Update="Pages/HistoryPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages/HomePage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
     <MauiXaml Update="Pages/LoginPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>
