@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-ios;net8.0-maccatalyst;net8.0-android</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
-      $(TargetFrameworks);net8.0-windows10.0.19041.0
-    </TargetFrameworks>
+    <!-- Focus now: Android only -->
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+
+    <!-- Later (on Mac): enable iOS/MacCatalyst by changing to:
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+    -->
 
     <OutputType>Exe</OutputType>
     <RootNamespace>MemberCard</RootNamespace>
@@ -56,13 +58,15 @@
     </AndroidResource>
   </ItemGroup>
 
-  <!-- .NET 8: referensi eksplisit -->
+  <!-- .NET 10: referensi eksplisit -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
-    <PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+    <PackageReference Include="ZXing.Net.Maui.Controls" Version="0.7.3" />
   </ItemGroup>
+
+
 
   <!-- XAML compile -->
   <ItemGroup>

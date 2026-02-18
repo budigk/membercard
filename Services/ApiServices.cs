@@ -1,7 +1,9 @@
 ﻿using MemberCard.Models;
 using Microsoft.Maui.ApplicationModel.Communication;
+using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace MemberCard.Services;
 
@@ -100,7 +102,7 @@ public class ApiServices
     public async Task<IReadOnlyList<TransactionItem>> GetHistoryAsync(string kode = "", string tanggal = "" , string? endpointOverride = null)
     {
         if (string.IsNullOrWhiteSpace(kode))
-            kode = Preferences.Get("KodeMember", string.Empty).Trim();
+            kode = Preferences.Get("MemberKode", string.Empty).Trim();
 
         if (string.IsNullOrWhiteSpace(kode))
         {
@@ -181,23 +183,12 @@ public class ApiServices
 
     public async Task<bool> CheckUserExistsAsync(string email, CancellationToken ct = default)
     {
-        var url = $"{BaseUrl}{PATH_USER_QUERY}?email={Uri.EscapeDataString(email)}";
+        var url = $"{BaseUrl}/api/member/?field=email&value={Uri.EscapeDataString(email)}";
         using var res = await _http.GetAsync(url, ct).ConfigureAwait(false);
         if (!res.IsSuccessStatusCode) return false;
+        
         var json = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(json)) return false;
-
-        try
-        {
-            var node = JsonSerializer.Deserialize<Dictionary<string, object>>(json, JsonOpts);
-            if (node != null)
-            {
-                if (node.TryGetValue("exists", out var v) && bool.TryParse(v?.ToString(), out var b)) return b;
-                if (node.ContainsKey("email")) return true;
-                if (node.TryGetValue("success", out var s) && bool.TryParse(s?.ToString(), out var sb)) return sb;
-            }
-        }
-        catch { /* ignore */ }
 
         try
         {
@@ -210,15 +201,16 @@ public class ApiServices
     }
 
     // Kirim OTP: return (ok, otp, serverMessage)
-    public async Task<(bool ok, string? otp, string? serverMsg)> RequestEmailOtpAsync(string email, CancellationToken ct = default)
+    public async Task<(bool ok, string? otp, string? serverMsg)> RequestEmailOtpAsync(string email, string tipe, CancellationToken ct = default)
     {
-        var url = $"{BaseUrl}{PATH_OTP_EMAIL_SEND}?email={Uri.EscapeDataString(email)}";
+        var url = $"{BaseUrl}{PATH_OTP_EMAIL_SEND}?email={Uri.EscapeDataString(email)}&tipe={Uri.EscapeDataString(tipe)}";
         using var res = await _http.PostAsync(url, content: null, ct).ConfigureAwait(false);
 
         // Sukses berdasarkan HTTP 200
         if (!res.IsSuccessStatusCode)
         {
             var err = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
+            err = Regex.Match(err ?? "", "\"Message\"\\s*:\\s*\"([^\"]+)\"").Groups[1].Value ?? err;
             return (false, null, string.IsNullOrWhiteSpace(err) ? $"HTTP {(int)res.StatusCode}" : err);
         }
 
@@ -247,50 +239,86 @@ public class ApiServices
         return res.IsSuccessStatusCode;
     }
 
-    public async Task<bool> CreateMemberAsync(Member model, CancellationToken ct = default)
+    public async Task<(bool ok, string? message)> CreateMemberAsync(Member model, CancellationToken ct = default)
     {
-        var url = $"{BaseUrl}{PATH_MEMBER}";
-        using var res = await _http.PostAsJsonAsync(url, model, ct).ConfigureAwait(false);
-        return res.IsSuccessStatusCode;
-    }
-
-    public async Task<Member> GetMemberAsync(string ponsel, CancellationToken ct = default)
-    {
-        var url = $"{BaseUrl}{PATH_MEMBER}?ponsel={Normalize62(ponsel)}";
-        using var res = await _http.GetAsync(url, ct);
-        res.EnsureSuccessStatusCode();
-        var json = await res.Content.ReadAsStringAsync(ct);
-
+        var url = $"{BaseUrl.TrimEnd('/')}{PATH_MEMBER}";
         try
         {
-            using var doc = JsonDocument.Parse(json);
-            var root = doc.RootElement;
+            using var res = await _http.PostAsJsonAsync(url, model, ct).ConfigureAwait(false);
 
-            string? Pick(params string[] keys)
-            {
-                foreach (var k in keys)
-                {
-                    if (root.TryGetProperty(k, out var v) && v.ValueKind != JsonValueKind.Null)
-                        return v.ToString();
-                    foreach (var p2 in root.EnumerateObject())
-                        if (string.Equals(p2.Name, k, StringComparison.OrdinalIgnoreCase))
-                            return p2.Value.ToString();
-                }
-                return null;
-            }
+            if (res.IsSuccessStatusCode)
+                return (true, null);
 
-            var kode = Pick("KodeMember", "kode", "Kode");
-            var nama = Pick("NamaMember", "nama", "Nama");
-            var valid = Pick("ValidThru", "TglBerakhir", "valid_thru");
-            var point = Pick("PointAkhir", "pointAkhir", "Point");
+            // coba ambil error message dari body (kalau ada)
+            var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
+            var msg = string.IsNullOrWhiteSpace(body)
+                ? $"HTTP {(int)res.StatusCode} {res.ReasonPhrase}"
+                : body;
 
-            if (!string.IsNullOrEmpty(kode)) Preferences.Set("KodeMember", kode);
-            if (!string.IsNullOrEmpty(nama)) Preferences.Set("NamaMember", nama);
-            if (!string.IsNullOrEmpty(valid)) Preferences.Set("ValidThru", valid);
-            if (!string.IsNullOrEmpty(point)) Preferences.Set("PointAkhir", point);
-
-            return DeserializeMaybeWrapped<Member>(json) ?? new Member();
+            return (false, msg);
         }
-        catch { return DeserializeMaybeWrapped<Member>(json) ?? new Member(); }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return (false, "Request dibatalkan.");
+        }
+        catch (Exception ex)
+        {
+            return (false, ex.Message);
+        }
+    }
+
+
+    public async Task<Member> GetMemberAsync(string sField, string sValue, CancellationToken ct = default)
+    {
+        // gabung BaseUrl + PATH_OUTLET (BaseUrl sudah TrimEnd('/'))
+        var url = $"{BaseUrl}{PATH_MEMBER}?field={sField}&value={sValue}";
+        System.Diagnostics.Debug.WriteLine($"[GET] {url}");
+
+        using var resp = await _http.GetAsync(url, ct);
+        resp.EnsureSuccessStatusCode();
+
+        var json = await resp.Content.ReadAsStringAsync(ct);
+
+        // Pakai helper generic: coba wrapper { data: [...] } → fallback array murni
+        return DeserializeMaybeWrapped<Member>(json) ?? new Member();
+        //return DeserializeMaybeWrapped<List<Member>>(json) ?? new List<Member>();
+
+
+        //var url = $"{BaseUrl}{PATH_MEMBER}?ponsel={sField}&value={sValue}";
+        //using var res = await _http.GetAsync(url, ct);
+        //res.EnsureSuccessStatusCode();
+        //var json = await res.Content.ReadAsStringAsync(ct);
+
+        //try
+        //{
+        //    using var doc = JsonDocument.Parse(json);
+        //    var root = doc.RootElement;
+
+        //    string? Pick(params string[] keys)
+        //    {
+        //        foreach (var k in keys)
+        //        {
+        //            if (root.TryGetProperty(k, out var v) && v.ValueKind != JsonValueKind.Null)
+        //                return v.ToString();
+        //            foreach (var p2 in root.EnumerateObject())
+        //                if (string.Equals(p2.Name, k, StringComparison.OrdinalIgnoreCase))
+        //                    return p2.Value.ToString();
+        //        }
+        //        return null;
+        //    }
+
+        //    var kode = Pick("KodeMember", "kode", "Kode");
+        //    var nama = Pick("NamaMember", "nama", "Nama");
+        //    var valid = Pick("ValidThru", "TglBerakhir", "valid_thru");
+        //    var point = Pick("PointAkhir", "pointAkhir", "Point");
+
+        //    if (!string.IsNullOrEmpty(kode)) Preferences.Set("KodeMember", kode);
+        //    if (!string.IsNullOrEmpty(nama)) Preferences.Set("NamaMember", nama);
+        //    if (!string.IsNullOrEmpty(valid)) Preferences.Set("ValidThru", valid);
+        //    if (!string.IsNullOrEmpty(point)) Preferences.Set("PointAkhir", point);
+
+        //    return DeserializeMaybeWrapped<Member>(json) ?? new Member();
+        //}
+        //catch { return DeserializeMaybeWrapped<Member>(json) ?? new Member(); }
     }
 }

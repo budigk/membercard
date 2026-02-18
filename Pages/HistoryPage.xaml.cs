@@ -1,4 +1,4 @@
-using MemberCard.Models;
+﻿using MemberCard.Models;
 using MemberCard.Services;
 using Microsoft.Maui.Storage;
 using System.ComponentModel;
@@ -9,11 +9,22 @@ namespace MemberCard.Pages;
 public partial class HistoryPage : ContentPage
 {
     private readonly ApiServices _api;
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
 
     public HistoryPage(ApiServices api)
     {
         InitializeComponent();
         _api = api;
+        BindingContext = this;
     }
 
     protected override async void OnAppearing()
@@ -30,17 +41,36 @@ public partial class HistoryPage : ContentPage
 
     private async Task LoadAsync()
     {
+        //try
+        //{
+        //    // kode & tanggal default di ApiServices (kode dari Preferences, tanggal = today-365)
+        //    var items = await _api.GetHistoryAsync();
+        //    List.ItemsSource = items;
+        //}
+        //catch (Exception ex)
+        //{
+        //    System.Diagnostics.Debug.WriteLine(ex);
+        //    await DisplayAlert("Gagal memuat", "Tidak dapat memuat riwayat.", "OK");
+        //    List.ItemsSource = Array.Empty<TransactionItem>();
+        //}
         try
         {
-            // kode & tanggal default di ApiServices (kode dari Preferences, tanggal = today-365)
+            IsLoading = true;
+
             var items = await _api.GetHistoryAsync();
-            List.ItemsSource = items;
+            List.ItemsSource = items ?? Array.Empty<TransactionItem>();
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex);
             await DisplayAlert("Gagal memuat", "Tidak dapat memuat riwayat.", "OK");
             List.ItemsSource = Array.Empty<TransactionItem>();
+        }
+        finally
+        {
+            IsLoading = false;
+            if (HistoryRefresh.IsRefreshing)
+                HistoryRefresh.IsRefreshing = false;
         }
     }
 

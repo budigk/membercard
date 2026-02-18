@@ -9,8 +9,8 @@ namespace MemberCard.Pages;
 [QueryProperty(nameof(MemberName), "MemberName")]
 public partial class ShowBarcodePage : ContentPage
 {
-    private string _cardNo = "000000";
-    private string _memberName = "Member Name";
+    private string _cardNo = "";
+    private string _memberName = "";
     private bool _isQr = false;
     private bool _animating = false;
 
@@ -19,7 +19,7 @@ public partial class ShowBarcodePage : ContentPage
         get => _cardNo;
         set
         {
-            _cardNo = string.IsNullOrWhiteSpace(value) ? "000000" : value;
+            _cardNo = Preferences.Get("MemberKode", "");
             ApplyValue();
         }
     }
@@ -29,7 +29,7 @@ public partial class ShowBarcodePage : ContentPage
         get => _memberName;
         set
         {
-            _memberName = string.IsNullOrWhiteSpace(value) ? "Member Name" : value;
+            _memberName = Preferences.Get("MemberNama", "");
             ApplyValue();
         }
     }

@@ -81,10 +81,10 @@
         <Border Style="{StaticResource Card}">
             <Grid ColumnDefinitions="*,Auto" Padding="4,0,4,0">
                 <VerticalStackLayout Spacing="2">
-                    <Label x:Name="lblMemberName" Text="Agung Pratama"
+                    <Label x:Name="lblMemberName" Text=""
                            FontSize="16" FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light={StaticResource TextMainLight}, Dark={StaticResource TextMainDark}}"/>
-                    <Label x:Name="lblCardNo" Text="Card No: 9988 6655 2211"
+                    <Label x:Name="lblCardNo" Text="Card No: "
                            FontSize="12"
                            TextColor="{AppThemeBinding Light={StaticResource TextSubLight}, Dark={StaticResource TextSubDark}}"/>
                 </VerticalStackLayout>

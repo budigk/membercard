@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using MemberCard.Services;
+﻿using Android.Media.TV;
 using MemberCard.Models;
+using MemberCard.Services;
+using System.Text.RegularExpressions;
 
 namespace MemberCard.Pages;
 
@@ -21,6 +22,12 @@ public partial class RegisterPage : ContentPage
         UpdateUiState();
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        CancelOtpCooldown();
+    }
+
     // ================= UI state ================
     private void SetBusy(bool busy, string? info = null)
     {
@@ -37,8 +44,8 @@ public partial class RegisterPage : ContentPage
 
         // Field lain dikunci sampai OTP valid
         bool en = _otpVerified && !busy;
-        txtPassword.IsEnabled = en;
-        txtConfirmPassword.IsEnabled = en;
+        //txtPassword.IsEnabled = en;
+        //txtConfirmPassword.IsEnabled = en;
         txtNoKtp.IsEnabled = en;
         txtNama.IsEnabled = en;
         txtNoPonsel.IsEnabled = en;
@@ -74,7 +81,13 @@ public partial class RegisterPage : ContentPage
             for (int s = seconds; s >= 1; s--)
             {
                 if (token.IsCancellationRequested || _otpVerified) break;
-                btnSendOtp.Text = $"Kirim Ulang ({s}s)";
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    btnSendOtp.Text = $"Kirim Ulang ({s}s)";
+                });
+
+
                 await Task.Delay(1000, token);
             }
         }
@@ -83,6 +96,25 @@ public partial class RegisterPage : ContentPage
         _cooldownActive = false;
 
         // Jika sudah verified, tetap terkunci; kalau belum, aktifkan kembali
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (!_otpVerified)
+            {
+                btnSendOtp.Text = "Kirim Kode";
+                btnSendOtp.IsEnabled = true;
+            }
+            else
+            {
+                btnSendOtp.IsEnabled = false;
+            }
+        });
+    }
+
+    private void CancelOtpCooldown()
+    {
+        try { _otpCooldownCts?.Cancel(); } catch { }
+        _cooldownActive = false;
+
         if (!_otpVerified)
         {
             btnSendOtp.Text = "Kirim Kode";
@@ -90,14 +122,8 @@ public partial class RegisterPage : ContentPage
         }
         else
         {
-            btnSendOtp.IsEnabled = false; // locked permanently
+            btnSendOtp.IsEnabled = false;
         }
-    }
-
-    private void CancelOtpCooldown()
-    {
-        try { _otpCooldownCts?.Cancel(); } catch { }
-        _cooldownActive = false;
     }
 
     // ================== Events ==================
@@ -112,15 +138,15 @@ public partial class RegisterPage : ContentPage
 
         try
         {
-            SetBusy(true, "Memeriksa email...");
-            if (await _api.CheckUserExistsAsync(email))
-            {
-                await DisplayAlert("Info", "Email sudah terdaftar. Silakan login atau gunakan email lain.", "OK");
-                return;
-            }
+            //SetBusy(true, "Memeriksa email...");
+            //if (await _api.CheckUserExistsAsync(email))
+            //{
+            //    await DisplayAlert("Info", "Email sudah terdaftar. Silakan login atau gunakan email lain.", "OK");
+            //    return;
+            //}
 
             SetBusy(true, "Mengirim OTP ke email...");
-            var (ok, otp, serverMsg) = await _api.RequestEmailOtpAsync(email);
+            var (ok, otp, serverMsg) = await _api.RequestEmailOtpAsync(email,  "REGISTRASI");
             if (!ok)
             {
                 await DisplayAlert("Gagal", serverMsg ?? "Tidak dapat mengirim OTP.", "OK");
@@ -131,6 +157,8 @@ public partial class RegisterPage : ContentPage
             _serverOtp = otp;
 
             await DisplayAlert("Info", serverMsg ?? "OTP terkirim.", "OK");
+            
+            txtOtp.Focus();
 
             // mulai cooldown 60s
             CancelOtpCooldown();
@@ -171,6 +199,10 @@ public partial class RegisterPage : ContentPage
             txtEmail.IsEnabled = false;
 
             UpdateUiState();
+
+            txtOtp.Text = string.Empty;
+            lblInfo.Text = "Email terverifikasi ✓ Silakan lengkapi data pendaftaran.";
+
             await DisplayAlert("Sukses", "Email terverifikasi.", "OK");
         }
         else
@@ -188,19 +220,25 @@ public partial class RegisterPage : ContentPage
         }
 
         var email = txtEmail.Text?.Trim() ?? "";
-        var pass = txtPassword.Text ?? "";
-        var pass2 = txtConfirmPassword.Text ?? "";
+        //var pass = txtPassword.Text ?? "";
+        //var pass2 = txtConfirmPassword.Text ?? "";
 
-        if (pass.Length < 6)
+        if (!IsValidEmail(email))
         {
-            await DisplayAlert("Error", "Password minimal 6 karakter.", "OK");
+            await DisplayAlert("Error", "Format email tidak valid.", "OK");
             return;
         }
-        if (!string.Equals(pass, pass2))
-        {
-            await DisplayAlert("Error", "Konfirmasi password tidak sama.", "OK");
-            return;
-        }
+
+        //if (pass.Length < 6)
+        //{
+        //    await DisplayAlert("Error", "Password minimal 6 karakter.", "OK");
+        //    return;
+        //}
+        //if (!string.Equals(pass, pass2))
+        //{
+            //await DisplayAlert("Error", "Konfirmasi password tidak sama.", "OK");
+            //return;
+        //}
 
         if (string.IsNullOrWhiteSpace(txtNoKtp.Text)
          || string.IsNullOrWhiteSpace(txtNama.Text)
@@ -210,10 +248,17 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
-        var tgl = dpTanggalLahir.Date;
-        if (tgl == default)
+        DateTime? tgl = dpTanggalLahir.Date;
+
+        if (tgl == null)
         {
             await DisplayAlert("Error", "Tanggal lahir wajib diisi.", "OK");
+            return;
+        }
+
+        if (tgl > DateTime.Today)
+        {
+            await DisplayAlert("Error", "Tanggal lahir tidak boleh lebih dari hari ini.", "OK");
             return;
         }
 
@@ -222,38 +267,115 @@ public partial class RegisterPage : ContentPage
             SetBusy(true, "Menyimpan data...");
 
             // 1) Tandai email confirmed
-            var ureq = new UserUpsertRequest { Email = email, EmailConfirmed = true };
-            if (!await _api.CreateOrUpdateUserAsync(ureq))
-            {
-                await DisplayAlert("Gagal", "Gagal menyimpan data user.", "OK");
-                return;
-            }
+            //var ureq = new UserUpsertRequest { Email = email, EmailConfirmed = true };
+            //if (!await _api.CreateOrUpdateUserAsync(ureq))
+            //{
+            //    await DisplayAlert("Gagal", "Gagal menyimpan data user.", "OK");
+            //    return;
+            //}
 
             // 2) Simpan member
             var m = new Member
             {
+                Kode = "",
+                NoKartu = "",
                 Email = email,
-                Password = pass,
-                NoKTP = txtNoKtp.Text!.Trim(),
+                Password = "",
+                IdPengenal = txtNoKtp.Text!.Trim(),
                 Nama = txtNama.Text!.Trim(),
-                NoPonsel = txtNoPonsel.Text!.Trim(),
+                Ponsel = txtNoPonsel.Text!.Trim(),
                 Alamat = txtAlamat.Text?.Trim(),
-                Kecamatan = txtKecamatan.Text?.Trim(),
+                Wilayah = txtKecamatan.Text?.Trim(),
                 Kota = txtKota.Text?.Trim(),
+                Propinsi = "",
+                KodePos = "",
+                Negara = "Indonesia",
+                Telepon = "",
+                Fax = "",
+                
+                TipeId = "KTP",
+                IsKirim = false,
+                TglUpload = "",
+                TglReady = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                Operator = "ONLINE",
                 Agama = pkAgama.SelectedItem?.ToString(),
-                TempatLahir = txtTempatLahir.Text?.Trim(),
-                TanggalLahir = tgl,
-                // NoKartu   = txtNoKartu?.Text?.Trim(),
-                PointAkhir = 0
+                TptLahir = txtTempatLahir.Text?.Trim(),
+                TglLahir = tgl.Value.ToString("yyyy-MM-dd"),
+                PointAkhir = 0,
+                TglRegis = DateTime.Now.ToString("yyyy-MM-dd"),
+                TglAktif = DateTime.Now.ToString("yyyy-MM-dd"),
+                TglBerakhir = DateTime.Now.ToString("yyyy-MM-dd"),
+                Status = "Aktif",
+                TglStatus = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                //Waktu = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                TglKenal = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                StatusDesc = "",
+                PointAwal = 0,
+                GolDar = "",
+                NamaIbu = "",
+                Pendapatan = 0,
+                Horeka = "",
+                NilaiMinus = 0,
+                NilaiPlus = 0,
+                Gender = "Pria",
+                TelKantor = "",
+                Ponsel2 = "",
+                PinBB = "",
+                Pekerjaan = "SWASTA",
+                RangeDapat = "",
+                SSosial = "Belum Menikah",
+                Pasangan = "",
+                Anak1 = "",
+                Anak2 = "",
+                Anak3 = "",
+                LvHarga ="Regular",
+                Outlet = "",
+                TglCrossDate = "",
+                JMember = "Regular",
+                Kategori = "",
+                Grup = "",
+                Alias = "",
+                Mobile = false,
+                Kelompok = "REGULAR",
+                FingerScan = ""
             };
 
-            if (!await _api.CreateMemberAsync(m))
+            var (ok, msg) = await _api.CreateMemberAsync(m);
+
+            if (!ok)
             {
-                await DisplayAlert("Gagal", "Gagal menyimpan data member.", "OK");
+                //await DisplayAlert("Gagal", msg ?? "Gagal menyimpan data member.", "OK");
+                try
+                {
+                    using var doc = System.Text.Json.JsonDocument.Parse(msg);
+                    if (doc.RootElement.TryGetProperty("Message", out var messageProp))
+                    {
+                        var pesan = messageProp.GetString();
+                        await DisplayAlert("Gagal", pesan ?? "Terjadi kesalahan.", "OK");
+                    }
+                    else
+                    {
+                        // Kalau JSON tapi tidak ada field Message
+                        await DisplayAlert("Gagal", msg ?? "Gagal menyimpan data member.", "OK");
+                    }
+                }
+                catch
+                {
+                    // Kalau msg ternyata bukan JSON (plain text)
+                    await DisplayAlert("Gagal", msg ?? "Gagal menyimpan data member.", "OK");
+                }
+
                 return;
             }
 
             await DisplayAlert("Sukses", "Pendaftaran berhasil. Silakan login.", "OK");
+
+            // reset state page
+            _otpVerified = false;
+            _serverOtp = null;
+            CancelOtpCooldown();
+            UpdateUiState();
+
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)

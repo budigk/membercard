@@ -31,7 +31,7 @@
             <CollectionView.EmptyView>
                 <Grid Padding="16" RowDefinitions="Auto,Auto">
                     <ActivityIndicator
-                        IsRunning="True"
+                        IsRunning="{Binding IsLoading}"
                         IsVisible="{Binding IsLoading}"
                         Color="{DynamicResource ColorText}" />
                     <Label Grid.Row="1"

@@ -33,11 +33,15 @@ public partial class HomePage : ContentPage
     {
         base.OnAppearing();
 
+        //Preferences.Set("MemberEmail", member.Email);
+        //Preferences.Set("MemberKode", member.Kode ?? "");
+        //Preferences.Set("MemberNama", member.Nama ?? "");
+        //Preferences.Set("MemberNoKartu", member.NoKartu ?? "");
         // TODO: ganti ke data dari API
-        lblMemberName.Text = "Agung Pratama";
-        lblCardNo.Text = "Card No: 9988 6655 2211";
-        lblValid.Text = "Valid thru 12/2026";
-        lblPoints.Text = "1250";
+        lblMemberName.Text = Preferences.Get("MemberNama", ""); // "Agung Pratama";
+        lblCardNo.Text = Preferences.Get("MemberNoKartu", "");
+        lblValid.Text = "Valid thru";
+        lblPoints.Text = "0";
     }
 
     private async void OnWhatsAppTapped(object sender, TappedEventArgs e)
@@ -50,8 +54,9 @@ public partial class HomePage : ContentPage
 
     private async void OnShowBarcode(object sender, EventArgs e)
     {
-        var cardNo = "998866552211";
-        var name = "Agung Pratama";
+        var cardNo = Preferences.Get("MemberNoKartu","") ;
+        var name = Preferences.Get("MemberNama", "");
+
         await Shell.Current.GoToAsync($"{nameof(ShowBarcodePage)}?CardNo={cardNo}&MemberName={Uri.EscapeDataString(name)}");
     }
 

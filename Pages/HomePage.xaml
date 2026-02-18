@@ -52,7 +52,7 @@
                 <!-- INFO MEMBER DI BAWAH KARTU -->
                 <Grid ColumnDefinitions="*,Auto" Padding="6,4,6,0">
                     <VerticalStackLayout Spacing="2">
-                        <Label x:Name="lblMemberName" Text="Agung Pratama"
+                        <Label x:Name="lblMemberName" Text=""
                                FontSize="16" FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light=#111827, Dark=White}"/>
                         <Label x:Name="lblCardNo" Text="Card No: 9988 6655 2211"

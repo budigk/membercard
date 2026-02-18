@@ -15,7 +15,6 @@ public class Outlet
     public string? Email { get; set; }
     public string? Whatsapp { get; set; }
     public string? Operator { get; set; }
-    public string? Waktu { get; set; }
     public string? GeoCode { get; set; }         // "lat,long"
     public string? ReverseGeoCode { get; set; }  // nama tempat / label
     public string? Outletcol { get; set; }

@@ -7,7 +7,11 @@ namespace MemberCard;
 public partial class App : Application
 {
     private readonly BrandingService _branding;
-    public static IServiceProvider Services => Current!.Handler!.MauiContext!.Services!;
+    //public static IServiceProvider Services => Current!.Handler!.MauiContext!.Services!;
+    public static IServiceProvider Services
+    => Current?.Handler?.MauiContext?.Services
+       ?? throw new InvalidOperationException("Services belum siap. Panggil setelah App tampil (mis. setelah MainPage set / OnAppearing).");
+
 
     //public static BrandConfig? Brand { get; private set; }
 
@@ -24,6 +28,7 @@ public partial class App : Application
         {
             // (opsional) load branding tanpa blocking UI
             //Brand = await branding.LoadAsync();
+            await Task.Yield();
 
             var hasToken = !string.IsNullOrEmpty(Preferences.Get("AccessToken", null));
 
@@ -47,6 +52,6 @@ public partial class App : Application
         base.OnStart();
         await _branding.LoadAsync();   // baca brand.json → set warna, logo, kartu, base URL
 
-        Preferences.Set("KodeMember", "M/AKS200200108");
+        //Preferences.Set("KodeMember", "M/AKS200200108");
     }
 }
