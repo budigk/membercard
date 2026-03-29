@@ -1,6 +1,6 @@
 ﻿{
   "appTitle": "Affari Member — Irian",
-  "apiBaseUrl": "http://10.220.199.111:3014",
+  "apiBaseUrl": "https://api.affariretail.id/irian",
   "apiBaseUrlProd": "https://api.affariretail.id/irian",
   "apiWAUrl": "https://wa.affariretail.id",
   "waClientId": "IRIAN",

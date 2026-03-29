@@ -50,6 +50,7 @@ public partial class App : Application
     protected override async void OnStart()
     {
         base.OnStart();
+
         await _branding.LoadAsync();   // baca brand.json → set warna, logo, kartu, base URL
 
         //Preferences.Set("KodeMember", "M/AKS200200108");

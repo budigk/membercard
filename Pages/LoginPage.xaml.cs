@@ -227,7 +227,7 @@ public partial class LoginPage : ContentPage
             // Contoh yang ideal: return Member? (atau null kalau tidak ada)
             var member = await _api.GetMemberAsync("email", email);
 
-            if (member == null)
+            if (member.Email == null)
             {
                 // OTP valid tapi email tidak terdaftar sebagai member
                 await DisplayAlert("Gagal", "Email belum terdaftar sebagai member. Silakan daftar dulu.", "OK");
@@ -246,6 +246,7 @@ public partial class LoginPage : ContentPage
             Preferences.Set("MemberKode", member.Kode ?? "");
             Preferences.Set("MemberNama", member.Nama ?? "");
             Preferences.Set("MemberNoKartu", member.NoKartu ?? "");
+            Preferences.Set("AccessToken", member.Kode ?? "");
             //Preferences.Set("KodeMember", "M/AKS200200108");
             // ======================
             // 3) Masuk ke Home
